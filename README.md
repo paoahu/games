@@ -1,2 +1,2 @@
 # games
-Learn programming logic through games
+Repository of games created with JavaScript.
