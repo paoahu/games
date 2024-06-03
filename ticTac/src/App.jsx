@@ -24,10 +24,17 @@ function App() {
   //const [board, setBoard] = useState(['x', 'o', 'o', 'o', 'x', 'x', 'o', 'x', 'x'])
 
   //Volvemos a lo correcto
-  const [board, setBoard] = useState(Array(9).fill(null))
+  const [board, setBoard] = useState(() => {
+    const boardFromStorage = window.localStorage.getItem('board')
+    return boardFromStorage ? JSON.parse(boardFromStorage) : Array(9).fill(null)
+  })
 
   //vamos a necesitar un estado para saber a quién le toca
-  const [turn, setTurn] = useState(TURNS.X)
+  const [turn, setTurn] = useState(() => {
+    const turnFromStorage = window.localStorage.getItem('turn')
+    return turnFromStorage ?? TURNS.X
+
+  })
 
   //creamos un estado para saber si hay ganador
   const [winner, setWinner] = useState(null) //null no hay ganador y false hay empate
@@ -38,6 +45,10 @@ function App() {
     setBoard(Array(9).fill(null))
     setTurn(TURNS.X)
     setWinner(null)
+
+    window.localStorage.removeItem('board')
+    window.localStorage.removeItem('turn')
+
 
   }
 
@@ -54,6 +65,9 @@ function App() {
     //vamos a cambiar un turno
     const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
     setTurn(newTurn)
+    //guardar aqui partida
+    window.localStorage.setItem('board', JSON.stringify(newBoard))
+    window.localStorage.setItem('turn', newTurn)
 
     //revisar si hay ganador
     const newWinner = checkWinner(newBoard)
