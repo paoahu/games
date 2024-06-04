@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import './App.css'
 import confetti from "canvas-confetti"
 import { Square } from "./components/Square.jsx"
